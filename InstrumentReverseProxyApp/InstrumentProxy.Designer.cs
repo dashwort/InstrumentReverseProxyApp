@@ -34,6 +34,7 @@
             this.InstrumentIPs = new System.Windows.Forms.ComboBox();
             this.AddInstrument = new System.Windows.Forms.TabPage();
             this.devicesView1 = new InstrumentReverseProxyApp.DevicesView();
+            this.button1 = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.AddProxy.SuspendLayout();
             this.AddInstrument.SuspendLayout();
@@ -52,6 +53,7 @@
             // 
             // AddProxy
             // 
+            this.AddProxy.Controls.Add(this.button1);
             this.AddProxy.Controls.Add(this.InstrumentIPs);
             this.AddProxy.Location = new System.Drawing.Point(4, 25);
             this.AddProxy.Name = "AddProxy";
@@ -91,6 +93,16 @@
             this.devicesView1.Size = new System.Drawing.Size(1053, 534);
             this.devicesView1.TabIndex = 0;
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(124, 186);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 1;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // InstrumentProxy
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -113,6 +125,7 @@
         private System.Windows.Forms.TabPage AddInstrument;
         private System.Windows.Forms.ComboBox InstrumentIPs;
         private DevicesView devicesView1;
+        private System.Windows.Forms.Button button1;
     }
 }
 

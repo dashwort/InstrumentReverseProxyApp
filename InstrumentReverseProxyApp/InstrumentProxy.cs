@@ -19,5 +19,11 @@ namespace InstrumentReverseProxyApp
         {
             InitializeComponent();
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            var p = new ProxyManager();
+            p.GetProxySettings();
+        }
     }
 }
