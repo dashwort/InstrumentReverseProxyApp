@@ -16,6 +16,11 @@ namespace InstrumentReverseProxyApp.models
             RemotePort = input[3];
         }
 
+        public ProxyEntry()
+        {
+
+        }
+
         public string LocalAddress { get; set; }
         public string RemoteAddress { get; set; }
         public string LocalPort { get; set; }

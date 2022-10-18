@@ -11,3 +11,4 @@ C:\Users\david\Nextcloud\Personal_Coding_Projects\WorkProjects\ReverseProxyApp\I
 C:\Users\david\Nextcloud\Personal_Coding_Projects\WorkProjects\ReverseProxyApp\InstrumentReverseProxyApp\InstrumentReverseProxyApp\obj\Debug\InstrumentReverseProxyApp.pdb
 C:\Users\david\Nextcloud\Personal_Coding_Projects\WorkProjects\ReverseProxyApp\InstrumentReverseProxyApp\InstrumentReverseProxyApp\obj\Debug\InstrumentReverseProxyApp.DevicesView.resources
 C:\Users\david\Nextcloud\Personal_Coding_Projects\WorkProjects\ReverseProxyApp\InstrumentReverseProxyApp\InstrumentReverseProxyApp\obj\Debug\InstrumentReverseProxyApp.AddDeviceUI.resources
+C:\Users\david\Nextcloud\Personal_Coding_Projects\WorkProjects\ReverseProxyApp\InstrumentReverseProxyApp\InstrumentReverseProxyApp\obj\Debug\InstrumentReverseProxyApp.g.resources

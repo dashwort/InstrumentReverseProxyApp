@@ -31,10 +31,10 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(InstrumentProxy));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.AddProxy = new System.Windows.Forms.TabPage();
+            this.button1 = new System.Windows.Forms.Button();
             this.InstrumentIPs = new System.Windows.Forms.ComboBox();
             this.AddInstrument = new System.Windows.Forms.TabPage();
             this.devicesView1 = new InstrumentReverseProxyApp.DevicesView();
-            this.button1 = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.AddProxy.SuspendLayout();
             this.AddInstrument.SuspendLayout();
@@ -62,6 +62,16 @@
             this.AddProxy.TabIndex = 0;
             this.AddProxy.Text = "Add Proxy";
             this.AddProxy.UseVisualStyleBackColor = true;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(124, 186);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(734, 118);
+            this.button1.TabIndex = 1;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // InstrumentIPs
             // 
@@ -92,16 +102,6 @@
             this.devicesView1.Name = "devicesView1";
             this.devicesView1.Size = new System.Drawing.Size(1053, 534);
             this.devicesView1.TabIndex = 0;
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(124, 186);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 1;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // InstrumentProxy
             // 

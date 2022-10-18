@@ -23,7 +23,18 @@ namespace InstrumentReverseProxyApp
         private void button1_Click(object sender, EventArgs e)
         {
             var p = new ProxyManager();
-            p.GetProxySettings();
+
+            var proxy = new ProxyEntry();
+            proxy.LocalAddress = "localhost";
+            proxy.LocalPort = "3366";
+
+            proxy.RemoteAddress = "192.168.1.224";
+            proxy.RemotePort = "3390";
+
+            var success = p.AddProxySettings(proxy);
+
+            if (success)
+                MessageBox.Show("Success");
         }
     }
 }
