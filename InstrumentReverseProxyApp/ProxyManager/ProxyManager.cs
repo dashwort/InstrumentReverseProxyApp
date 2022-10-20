@@ -26,6 +26,7 @@ namespace InstrumentReverseProxyApp
         public EventHandler StartProxyCapture;
         public EventHandler StopProxyCapture;
         public EventHandler ProxyEntryFound;
+        public EventHandler ProxyManagerError;
 
         public StringBuilder Output;
 
@@ -54,13 +55,6 @@ namespace InstrumentReverseProxyApp
             {
                 var entry = sender as ProxyEntry;
                 var success = ProxyEntries.TryAdd($"{entry.LocalAddress}:{entry.LocalPort}", entry);
-
-                if (success)
-                    Console.WriteLine($"Added proxy dictionary entry. " +
-                        $"LocalAddress: {entry.LocalAddress}, LocalPort: {entry.LocalPort}");
-                else
-                    Console.WriteLine($"Failed to add proxy dictionary entry. " +
-                        $"LocalAddress: {entry.LocalAddress}, LocalPort: {entry.LocalPort}");
             }
             catch (Exception ex)
             {
@@ -96,19 +90,6 @@ namespace InstrumentReverseProxyApp
             StopProxyCapture?.Invoke(this, EventArgs.Empty);
         }
 
-        public Process GetCmdProcess (string arguments)
-        {
-            var p = new Process();
-            p.StartInfo.FileName = "cmd.exe";
-            p.StartInfo.Arguments = arguments;
-            p.StartInfo.CreateNoWindow = true;
-            p.StartInfo.RedirectStandardError = true;
-            p.StartInfo.RedirectStandardOutput = true;
-            p.StartInfo.RedirectStandardInput = false;
-            p.StartInfo.UseShellExecute = false;
-            return p;
-        }
-
         public bool AddProxySettings(ProxyEntry p)
         {
             bool success = false;
@@ -118,6 +99,8 @@ namespace InstrumentReverseProxyApp
 
             try
             {
+                Console.WriteLine($"Calling add proxy: {p.LocalAddress}:{p.LocalPort}");
+
                 GetProxySettings();
 
                 if (ProxyEntries.ContainsKey($"{p.LocalAddress}:{p.LocalPort}"))
@@ -136,6 +119,7 @@ namespace InstrumentReverseProxyApp
                 var process = GetCmdProcess(args);
 
                 process.OutputDataReceived += ParseGetProxyConsoleOutput;
+                process.ErrorDataReceived += ParseGetProxyError;
                 process.StartInfo.Verb = "runas";
                 process.Start();
                 process.BeginOutputReadLine();
@@ -145,16 +129,145 @@ namespace InstrumentReverseProxyApp
 
                 if (ProxyEntries.ContainsKey($"{p.LocalAddress}:{p.LocalPort}"))
                     success = true;
+
+                if (!success)
+                    Console.WriteLine($"Failed to add proxy {p.LocalAddress}:{p.LocalPort}");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error during proxy capture: {ex.Message}");
+                Console.WriteLine($"Error during proxy add: {ex.Message}");
+            }
+
+            return success;
+        }
+
+        public bool AddProxySettings(IEnumerable<ProxyEntry> proxies)
+        {
+            bool success = false;
+
+            try
+            {
+                GetProxySettings();
+
+                foreach (var p in proxies)
+                {
+                    Console.WriteLine($"Calling add proxy: {p.LocalAddress}:{p.LocalPort}");
+
+                    if (ProxyEntries.ContainsKey($"{p.LocalAddress}:{p.LocalPort}"))
+                    {
+                        Console.WriteLine($"Warning proxy was already added, skipping add action");
+                        return false;
+                    }
+
+                    var args = @"/c netsh interface portproxy add v4tov4 "
+                        + $"listenport={p.LocalPort} listenaddress={p.LocalAddress} "
+                        + $"connectport={p.RemotePort} connectaddress={p.RemoteAddress}";
+
+                    Console.WriteLine($"Command line args:");
+                    Console.WriteLine(args);
+
+                    var process = GetCmdProcess(args);
+
+                    process.OutputDataReceived += ParseGetProxyConsoleOutput;
+                    process.ErrorDataReceived += ParseGetProxyError;
+                    process.StartInfo.Verb = "runas";
+                    process.Start();
+                    process.BeginOutputReadLine();
+                    process.WaitForExit();
+
+                    GetProxySettings();
+
+                    if (ProxyEntries.ContainsKey($"{p.LocalAddress}:{p.LocalPort}"))
+                        success = true;
+
+                    if (!success)
+                        Console.WriteLine($"Failed to add proxy {p.LocalAddress}:{p.LocalPort}");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error during proxy add: {ex.Message}");
+            }
+
+            return success;
+        }
+
+        public bool DeleteProxySettings(ProxyEntry p)
+        {
+            bool success = false;
+
+            if (p is null)
+                return false;
+
+            try
+            {
+                Console.WriteLine($"Calling delete proxy: {p.LocalAddress}:{p.LocalPort}");
+
+                GetProxySettings();
+
+                if (!ProxyEntries.ContainsKey($"{p.LocalAddress}:{p.LocalPort}"))
+                {
+                    Console.WriteLine($"Warning proxy was not found, skipping delete action");
+                    return false;
+                }
+
+                var args = @"/c netsh interface portproxy delete v4tov4 "
+                    + $"listenport={p.LocalPort} listenaddress={p.LocalAddress} ";
+
+                Console.WriteLine($"Command line args:");
+                Console.WriteLine(args);
+
+                var process = GetCmdProcess(args);
+
+                process.OutputDataReceived += ParseGetProxyConsoleOutput;
+                process.StartInfo.Verb = "runas";
+                process.Start();
+                process.BeginOutputReadLine();
+                process.WaitForExit();
+
+                GetProxySettings();
+
+                if (!ProxyEntries.ContainsKey($"{p.LocalAddress}:{p.LocalPort}"))
+                    success = true;
+
+                if (!success)
+                    Console.WriteLine($"Failed to delete proxy {p.LocalAddress}:{p.LocalPort}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error during proxy delete: {ex.Message}");
             }
 
             return success;
         }
 
         #region getProxyHelperMethods
+        public Process GetCmdProcess(string arguments)
+        {
+            var p = new Process();
+            p.StartInfo.FileName = "cmd.exe";
+            p.StartInfo.Arguments = arguments;
+            p.StartInfo.CreateNoWindow = true;
+            p.StartInfo.RedirectStandardError = true;
+            p.StartInfo.RedirectStandardOutput = true;
+            p.StartInfo.RedirectStandardInput = false;
+            p.StartInfo.UseShellExecute = false;
+            return p;
+        }
+
+        void ParseGetProxyError(object sender, DataReceivedEventArgs e)
+        {
+            try
+            {
+                ProxyManagerError?.Invoke(sender, e);
+                Console.WriteLine($"Error from running cmd process: {e.Data}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error during parse proxy error: {ex.Message}");
+            }
+        }
+
         void ParseGetProxyConsoleOutput(object sender, DataReceivedEventArgs e)
         {
             try

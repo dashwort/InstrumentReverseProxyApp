@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Management.Automation;
 using System.Net;
+using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,9 +16,13 @@ namespace InstrumentReverseProxyApp
         public NetworkUtility()
         {
             _timer = new System.Timers.Timer(500);
+            _pingTimer = new System.Timers.Timer(1000);
+
             _timer.Elapsed += ScanPorts;
+            _pingTimer.Elapsed += PingHost;
 
             AddressChanged += HandleAddressChanged;
+            _pingTimer.Start();
         }
 
         #region fields
@@ -26,6 +32,7 @@ namespace InstrumentReverseProxyApp
         public EventHandler PortsFound;
 
         System.Timers.Timer _timer;
+        System.Timers.Timer _pingTimer;
 
         List<int> _ports = new List<int>();
         IPAddress _ipAddress = new IPAddress(0);
@@ -33,6 +40,9 @@ namespace InstrumentReverseProxyApp
 
         #region properties
         public bool ScanRunning { get; set; }
+        public bool PingRunning { get; set; }
+        public bool Reachable { get; set; }
+        public int Latency { get; set; }
         public IPAddress Address 
         {
             get
@@ -64,6 +74,16 @@ namespace InstrumentReverseProxyApp
                 return _ports.Distinct();
             }
         }
+
+        public Timer PingTimer
+        {
+            get { return _pingTimer; }
+        }
+
+        public void ClearPorts()
+        {
+            _ports.Clear();
+        }
         #endregion
 
         #region events
@@ -78,18 +98,51 @@ namespace InstrumentReverseProxyApp
 
             ScanRunning = true;
 
-            var ports = GetPortsInUse(Address);
-
-            foreach (var port in ports)
+            try
             {
-                if (!_ports.Contains(port))
+                var ports = GetPortsInUse(Address);
+
+                foreach (var port in ports)
                 {
-                    _ports.Add(port);
-                    PortsFound?.Invoke(this, e);
+                    if (!_ports.Contains(port))
+                    {
+                        _ports.Add(port);
+                        PortsFound?.Invoke(this, e);
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
             }
 
             ScanRunning = false;
+        }
+
+        void PingHost(object sender, ElapsedEventArgs e)
+        {
+            if (PingRunning)
+                return;
+
+            if (Address is null)
+            {
+                Reachable = false;
+                Latency = 0;
+                return;
+            }
+
+            PingRunning = true;
+
+            try
+            {
+                PingHost(Address.ToString());
+            }
+            catch (Exception)
+            {
+                //;
+            }
+
+            PingRunning = false;
         }
 
         void HandleAddressChanged(object sender, EventArgs e)
@@ -148,6 +201,33 @@ namespace InstrumentReverseProxyApp
             }
 
             return ports;
+        }
+
+        public bool PingHost(string nameOrAddress)
+        {
+            bool pingable = false;
+            Ping pinger = null;
+
+            try
+            {
+                pinger = new Ping();
+                PingReply reply = pinger.Send(nameOrAddress);
+                Reachable = reply.Status == IPStatus.Success;
+                Latency = (int)reply.RoundtripTime;
+            }
+            catch (PingException)
+            {
+                // Discard PingExceptions and return false;
+            }
+            finally
+            {
+                if (pinger != null)
+                {
+                    pinger.Dispose();
+                }
+            }
+
+            return pingable;
         }
 
         public bool ValidateIPv4(string ipString, out IPAddress ip)

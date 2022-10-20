@@ -15,6 +15,39 @@ namespace InstrumentReverseProxyApp.models
         public string Manufacturer { get; set; }
         public string Ports { get; set; }
 
+        public IEnumerable<int> GetPorts()
+        {
+            var list = new List<int>();
+            var ports = Ports.Split(';');
+
+            foreach (var p in ports)
+            {
+                var sucess = int.TryParse(p, out int pp);
+
+                if (sucess)
+                    list.Add(pp);
+            }
+
+            return list;
+        }
+
+        public string GetPortsAsString(int[] ports)
+        {
+            if (ports.Length == 0)
+                return "None";
+
+            var build = new StringBuilder();
+
+            foreach (var p in ports)
+            {
+                build.Append($"{p};");
+            }
+
+            build.Remove(build.Length - 1, 1);
+
+            return build.ToString();
+        }
+
         public void Save(string FileName)
         {
             var fileInfo = new DirectoryInfo(FileName);
@@ -42,36 +75,6 @@ namespace InstrumentReverseProxyApp.models
                 var serializer = new XmlSerializer(typeof(Device));
                 return serializer.Deserialize(stream) as Device;
             }
-        }
-
-        public IEnumerable<int> GetPorts()
-        {
-            var list = new List<int>();
-            var ports = Ports.Split(';');
-
-            foreach (var p in ports)
-            {
-                var sucess = int.TryParse(p, out int pp);
-
-                if (sucess)
-                    list.Add(pp);
-            }
-
-            return list;
-        }
-
-        public string GetPortsAsString(int[] ports)
-        {
-            var build = new StringBuilder();
-
-            foreach (var p in ports)
-            {
-                build.Append($"{p};");
-            }
-
-            build.Remove(build.Length - 1, 1);
-
-            return build.ToString();
         }
     }
 }

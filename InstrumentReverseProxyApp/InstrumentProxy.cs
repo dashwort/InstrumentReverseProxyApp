@@ -31,9 +31,11 @@ namespace InstrumentReverseProxyApp
             proxy.RemoteAddress = "192.168.1.224";
             proxy.RemotePort = "3390";
 
-            var success = p.AddProxySettings(proxy);
+            var addSuccess = p.AddProxySettings(proxy);
 
-            if (success)
+            var deleteSuccess = p.DeleteProxySettings(proxy);
+
+            if (addSuccess && deleteSuccess)
                 MessageBox.Show("Success");
         }
     }

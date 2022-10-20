@@ -3,12 +3,14 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows.Forms;
 
 namespace InstrumentReverseProxyApp
@@ -22,6 +24,20 @@ namespace InstrumentReverseProxyApp
             LoadDevices();
         }
 
+        void LoadDevices()
+        {
+            DeviceManager.LoadDevices();
+            DeviceDirectoryLabel.Text = "Open Device Library Folder";
+            DeviceDirectoryLabel.Visible = true;
+
+            BindingSource bs = new BindingSource();
+            bs.DataSource = DeviceManager.Devices.ToList();
+            DevicesDataView.AutoGenerateColumns = true;
+            DevicesDataView.DataSource = bs;
+
+            _netUtility.PingTimer.Elapsed += PingTimerElapsed;
+        }
+
         NetworkUtility _netUtility = new NetworkUtility();
 
         void SetDataSources()
@@ -29,6 +45,8 @@ namespace InstrumentReverseProxyApp
             _netUtility.ListenerStarted += StartedListening;
             _netUtility.ListenerStopped += StoppedListening;
             _netUtility.PortsFound += PortsFound;
+
+            PortsFoundLabel.Text = string.Empty;
         }
 
         void PortsFound(object sender, EventArgs e)
@@ -42,21 +60,23 @@ namespace InstrumentReverseProxyApp
                     this.Invoke(new Action(() => {
                         PortsFoundLabel.Text = $"{ports.Count} Ports Found";
                         SaveDevice.Enabled = true;
+                        ClearCaptureButton.Enabled = true;
                     }));
+
+                    return;
                 }
-                else
-                {
-                    this.Invoke(new Action(() => {
-                        PortsFoundLabel.Text = String.Empty;
-                        SaveDevice.Enabled = false;
-                    }));
-                }
+
+                this.Invoke(new Action(() => {
+                    PortsFoundLabel.Text = String.Empty;
+                    SaveDevice.Enabled = false;
+                }));
             }
             catch (Exception)
             {
                 this.Invoke(new Action(() => {
                     PortsFoundLabel.Text = "Error with capture";
                     SaveDevice.Enabled = false;
+                    ClearCaptureButton.Enabled = false;
                 }));
             }
         }
@@ -73,6 +93,30 @@ namespace InstrumentReverseProxyApp
             StartCapture.Enabled = false;
             StopCapture.Enabled = true;
             ListenAddressInput.Enabled = false;
+        }
+
+        void PingTimerElapsed(object sender, ElapsedEventArgs e)
+        {
+            try
+            {
+                if (_netUtility.Reachable)
+                {
+                    this.Invoke(new Action(() => {
+                        PingReplyTime.Text = $"Ping latency: {_netUtility.Latency}ms";
+                    }));
+
+                    return;
+                }
+
+                this.Invoke(new Action(() => {
+                    PingReplyTime.Text = $"Unable to ping host: {_netUtility.Address}";
+                    return;
+                }));
+            }
+            catch (Exception)
+            {
+                // 
+            }
         }
 
         void ListenAddressInput_TextChanged(object sender, EventArgs e)
@@ -95,10 +139,12 @@ namespace InstrumentReverseProxyApp
                     _netUtility.Address = ip;
                     ListenAddressInput.BackColor = Color.White;
                     StartCapture.Enabled = true;
+                    PingReplyTime.Visible = true;
                     return;
                 }
 
                 ListenAddressInput.BackColor = Color.LightCoral;
+                PingReplyTime.Visible = false;
                 StartCapture.Enabled = false;
             }
             catch (Exception)
@@ -127,45 +173,44 @@ namespace InstrumentReverseProxyApp
             deviceSaveUI.ShowDialog(this);
         }
 
-        private void PortsFoundLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        void PortsFoundLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            var ports = new Device();
-            var pString = ports.GetPortsAsString(_netUtility.Ports.ToArray());
-            var message = $"Ports Found: {pString}";
-            MessageBox.Show(message);
-        }
-
-        private void LoadDevices()
-        {
-            var devicesDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Libs");
-
-            DevicesDirectory = new DirectoryInfo(devicesDirectory);
-
-            if (!DevicesDirectory.Exists)
-                return;
-
-            Devices = new List<Device>();
-
-            var files = DevicesDirectory.GetFiles("*.device");
-
-            foreach (var file in files)
+            try
             {
-                var d = new Device();
-                Devices.Add(d.Load(file.FullName));
+                var ports = new Device();
+                var pString = ports.GetPortsAsString(_netUtility.Ports.ToArray());
+                var message = $"Ports Found: {pString}";
+                MessageBox.Show(message);
             }
-
-            BindingSource bs = new BindingSource();
-            bs.DataSource = Devices;
-            DevicesDataView.AutoGenerateColumns = false;
-            DevicesDataView.DataSource = bs;
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);               
+            }
         }
 
-        public DirectoryInfo DevicesDirectory { get; set; }
-        public List<Device> Devices { get; set; }
-
-        private void PortsFoundLabel_LinkClicked_1(object sender, LinkLabelLinkClickedEventArgs e)
+        void ClearCaptureButton_Click(object sender, EventArgs e)
         {
+            try
+            {
+                _netUtility.Stop();
+                _netUtility.ClearPorts();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }   
+        }
 
+        void DeviceDirectoryLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            try
+            {
+                Process.Start(DeviceManager.DevicesDirectory.FullName);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }

@@ -95,8 +95,6 @@
             // 
             // devicesView1
             // 
-            this.devicesView1.Devices = null;
-            this.devicesView1.DevicesDirectory = ((System.IO.DirectoryInfo)(resources.GetObject("devicesView1.DevicesDirectory")));
             this.devicesView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.devicesView1.Location = new System.Drawing.Point(3, 3);
             this.devicesView1.Name = "devicesView1";
