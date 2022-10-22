@@ -74,7 +74,7 @@ namespace InstrumentReverseProxyApp
             {
                 if (CurrentProxies.SelectedRows.Count == 0)
                 {
-                    MessageBox.Show("No proxy added");
+                    MessageBox.Show("No proxy selected");
                     return;
                 }
                 

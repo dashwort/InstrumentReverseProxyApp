@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Device xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <Id>a3c6b057-3b95-4f13-a8d1-485ab16c8500</Id>
-  <Name>Nanobox2</Name>
-  <Manufacturer>Microsoft</Manufacturer>
-  <Ports>445;3390</Ports>
-</Device>

@@ -204,17 +204,23 @@ namespace InstrumentReverseProxyApp
             return ports;
         }
 
-        public bool PingHost(string nameOrAddress)
+        public bool PingHost(string ip)
         {
             bool pingable = false;
             Ping pinger = null;
 
             try
             {
-                pinger = new Ping();
-                PingReply reply = pinger.Send(nameOrAddress);
-                Reachable = reply.Status == IPStatus.Success;
-                Latency = (int)reply.RoundtripTime;
+                if (ValidateIPv4(ip, out IPAddress address))
+                {
+                    if (ip == "0.0.0.0")
+                        return false;
+                    
+                    pinger = new Ping();
+                    PingReply reply = pinger.Send(ip);
+                    Reachable = reply.Status == IPStatus.Success;
+                    Latency = (int)reply.RoundtripTime;
+                }
             }
             catch (PingException)
             {
