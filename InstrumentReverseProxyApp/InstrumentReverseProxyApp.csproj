@@ -60,6 +60,12 @@
     <Compile Include="AddDeviceUI.Designer.cs">
       <DependentUpon>AddDeviceUI.cs</DependentUpon>
     </Compile>
+    <Compile Include="AddProxy.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddProxy.Designer.cs">
+      <DependentUpon>AddProxy.cs</DependentUpon>
+    </Compile>
     <Compile Include="DeviceManager\DeviceManager.cs" />
     <Compile Include="DeviceManager\DevicesView.cs">
       <SubType>UserControl</SubType>
@@ -67,11 +73,11 @@
     <Compile Include="DeviceManager\DevicesView.Designer.cs">
       <DependentUpon>DevicesView.cs</DependentUpon>
     </Compile>
-    <Compile Include="InstrumentProxy.cs">
+    <Compile Include="DeviceProxy.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="InstrumentProxy.Designer.cs">
-      <DependentUpon>InstrumentProxy.cs</DependentUpon>
+    <Compile Include="DeviceProxy.Designer.cs">
+      <DependentUpon>DeviceProxy.cs</DependentUpon>
     </Compile>
     <Compile Include="models\Device.cs" />
     <Compile Include="models\ProxyEntry.cs" />
@@ -82,11 +88,14 @@
     <EmbeddedResource Include="AddDeviceUI.resx">
       <DependentUpon>AddDeviceUI.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="AddProxy.resx">
+      <DependentUpon>AddProxy.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DeviceManager\DevicesView.resx">
       <DependentUpon>DevicesView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="InstrumentProxy.resx">
-      <DependentUpon>InstrumentProxy.cs</DependentUpon>
+    <EmbeddedResource Include="DeviceProxy.resx">
+      <DependentUpon>DeviceProxy.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

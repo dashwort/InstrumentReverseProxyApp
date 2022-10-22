@@ -57,21 +57,23 @@
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.Padding = new System.Windows.Forms.Padding(5);
             this.tableLayoutPanel1.RowCount = 4;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 22.22222F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 22.22222F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 22.22222F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33334F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(603, 269);
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(762, 192);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label1.Location = new System.Drawing.Point(3, 0);
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(8, 5);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(84, 59);
+            this.label1.Size = new System.Drawing.Size(108, 33);
             this.label1.TabIndex = 0;
             this.label1.Text = "Name";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -80,9 +82,10 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label2.Location = new System.Drawing.Point(3, 59);
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(8, 38);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(84, 59);
+            this.label2.Size = new System.Drawing.Size(108, 33);
             this.label2.TabIndex = 1;
             this.label2.Text = "Manufacturer";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -91,9 +94,10 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label3.Location = new System.Drawing.Point(3, 118);
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(8, 71);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(84, 59);
+            this.label3.Size = new System.Drawing.Size(108, 33);
             this.label3.TabIndex = 2;
             this.label3.Text = "Ports";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -101,31 +105,31 @@
             // NameInput
             // 
             this.NameInput.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.NameInput.Location = new System.Drawing.Point(93, 3);
+            this.NameInput.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.NameInput.Location = new System.Drawing.Point(122, 8);
             this.NameInput.Name = "NameInput";
-            this.NameInput.Size = new System.Drawing.Size(507, 22);
+            this.NameInput.Size = new System.Drawing.Size(632, 27);
             this.NameInput.TabIndex = 3;
-            this.NameInput.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.NameInput.TextChanged += new System.EventHandler(this.NameInput_TextChanged);
             // 
             // ManufacturerInput
             // 
             this.ManufacturerInput.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ManufacturerInput.Location = new System.Drawing.Point(93, 62);
+            this.ManufacturerInput.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ManufacturerInput.Location = new System.Drawing.Point(122, 41);
             this.ManufacturerInput.Name = "ManufacturerInput";
-            this.ManufacturerInput.Size = new System.Drawing.Size(507, 22);
+            this.ManufacturerInput.Size = new System.Drawing.Size(632, 27);
             this.ManufacturerInput.TabIndex = 4;
-            this.ManufacturerInput.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.ManufacturerInput.TextChanged += new System.EventHandler(this.ManufacturerInput_TextChanged);
             // 
             // PortsInput
             // 
             this.PortsInput.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.PortsInput.Location = new System.Drawing.Point(93, 121);
+            this.PortsInput.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.PortsInput.Location = new System.Drawing.Point(122, 74);
             this.PortsInput.Name = "PortsInput";
-            this.PortsInput.Size = new System.Drawing.Size(507, 22);
+            this.PortsInput.Size = new System.Drawing.Size(632, 27);
             this.PortsInput.TabIndex = 5;
-            this.PortsInput.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.PortsInput.TextChanged += new System.EventHandler(this.PortsInput_TextChanged);
             // 
             // tableLayoutPanel2
@@ -137,19 +141,20 @@
             this.tableLayoutPanel2.Controls.Add(this.SaveButton, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.CancelButton, 1, 0);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 180);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(8, 107);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            this.tableLayoutPanel2.Padding = new System.Windows.Forms.Padding(5);
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(597, 86);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(746, 77);
             this.tableLayoutPanel2.TabIndex = 6;
             // 
             // SaveButton
             // 
             this.SaveButton.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.SaveButton.Location = new System.Drawing.Point(3, 3);
+            this.SaveButton.Location = new System.Drawing.Point(8, 8);
             this.SaveButton.Name = "SaveButton";
-            this.SaveButton.Size = new System.Drawing.Size(292, 80);
+            this.SaveButton.Size = new System.Drawing.Size(362, 61);
             this.SaveButton.TabIndex = 0;
             this.SaveButton.Text = "Save";
             this.SaveButton.UseVisualStyleBackColor = true;
@@ -158,9 +163,9 @@
             // CancelButton
             // 
             this.CancelButton.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.CancelButton.Location = new System.Drawing.Point(301, 3);
+            this.CancelButton.Location = new System.Drawing.Point(376, 8);
             this.CancelButton.Name = "CancelButton";
-            this.CancelButton.Size = new System.Drawing.Size(293, 80);
+            this.CancelButton.Size = new System.Drawing.Size(362, 61);
             this.CancelButton.TabIndex = 1;
             this.CancelButton.Text = "Cancel";
             this.CancelButton.UseVisualStyleBackColor = true;
@@ -170,8 +175,10 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(603, 269);
+            this.ClientSize = new System.Drawing.Size(762, 192);
             this.Controls.Add(this.tableLayoutPanel1);
+            this.MaximumSize = new System.Drawing.Size(780, 239);
+            this.MinimumSize = new System.Drawing.Size(780, 239);
             this.Name = "AddDeviceUI";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Add Device UI";

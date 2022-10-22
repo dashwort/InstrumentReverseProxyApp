@@ -4,6 +4,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -20,6 +21,8 @@ namespace InstrumentReverseProxyApp
 
             ProxyEntryFound += CaptureProxy;
             ProxyEntries = new ConcurrentDictionary<string, ProxyEntry>();
+
+            Task.Run(OnStart);
         }
 
         #region properties
@@ -27,6 +30,7 @@ namespace InstrumentReverseProxyApp
         public EventHandler StopProxyCapture;
         public EventHandler ProxyEntryFound;
         public EventHandler ProxyManagerError;
+        public EventHandler ProxyStarted;
 
         public StringBuilder Output;
 
@@ -63,6 +67,19 @@ namespace InstrumentReverseProxyApp
         }
         #endregion
 
+        public void OnStart()
+        {
+            try
+            {
+                GetProxySettings();
+                ProxyStarted?.Invoke(this, EventArgs.Empty);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error during proxy manager start: {ex.Message}");
+            }
+        }
+    
 
         public void GetProxySettings()
         {

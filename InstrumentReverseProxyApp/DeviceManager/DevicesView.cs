@@ -22,6 +22,7 @@ namespace InstrumentReverseProxyApp
             InitializeComponent();
             SetDataSources();
             LoadDevices();
+            SetUi();
         }
 
         void LoadDevices()
@@ -34,8 +35,15 @@ namespace InstrumentReverseProxyApp
             bs.DataSource = DeviceManager.Devices.ToList();
             DevicesDataView.AutoGenerateColumns = true;
             DevicesDataView.DataSource = bs;
+            DevicesDataView.Columns["Id"].Visible = false;
+        }
 
-            _netUtility.PingTimer.Elapsed += PingTimerElapsed;
+        void SetUi()
+        {
+            ClearCaptureButton.Enabled = false;
+            SaveDevice.Enabled = false;
+            StartCapture.Enabled = true;
+            PortsFoundLabel.Text = String.Empty;
         }
 
         NetworkUtility _netUtility = new NetworkUtility();
@@ -45,8 +53,7 @@ namespace InstrumentReverseProxyApp
             _netUtility.ListenerStarted += StartedListening;
             _netUtility.ListenerStopped += StoppedListening;
             _netUtility.PortsFound += PortsFound;
-
-            PortsFoundLabel.Text = string.Empty;
+            _netUtility.PingTimer.Elapsed += PingTimerElapsed;
         }
 
         void PortsFound(object sender, EventArgs e)
@@ -109,7 +116,7 @@ namespace InstrumentReverseProxyApp
                 }
 
                 this.Invoke(new Action(() => {
-                    PingReplyTime.Text = $"Unable to ping host: {_netUtility.Address}";
+                    PingReplyTime.Text = $"Trying to ping host: {_netUtility.Address}";
                     return;
                 }));
             }
@@ -194,6 +201,7 @@ namespace InstrumentReverseProxyApp
             {
                 _netUtility.Stop();
                 _netUtility.ClearPorts();
+                SetUi();
             }
             catch (Exception ex)
             {

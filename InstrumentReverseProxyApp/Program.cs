@@ -16,7 +16,7 @@ namespace InstrumentReverseProxyApp
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new InstrumentProxy());
+            Application.Run(new DeviceProxy());
         }
     }
 }

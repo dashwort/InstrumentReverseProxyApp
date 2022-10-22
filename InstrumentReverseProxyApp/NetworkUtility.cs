@@ -30,6 +30,7 @@ namespace InstrumentReverseProxyApp
         public EventHandler ListenerStopped;
         public EventHandler AddressChanged;
         public EventHandler PortsFound;
+        public EventHandler CaptureCleared;
 
         System.Timers.Timer _timer;
         System.Timers.Timer _pingTimer;
@@ -166,7 +167,7 @@ namespace InstrumentReverseProxyApp
             _timer.Stop();
         }
 
-        IEnumerable<IPAddress> GetIPAddresses()
+        public static IEnumerable<IPAddress> GetIPAddresses()
         {
             if (!System.Net.NetworkInformation.NetworkInterface.GetIsNetworkAvailable())
             {
@@ -236,6 +237,7 @@ namespace InstrumentReverseProxyApp
             if (ipString.Count(c => c == '.') != 3) return false;
             return IPAddress.TryParse(ipString, out ip);
         }
+
         #endregion
 
     }
