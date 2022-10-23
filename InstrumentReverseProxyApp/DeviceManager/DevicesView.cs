@@ -139,7 +139,7 @@ namespace InstrumentReverseProxyApp
                 }
 
 
-                success = _netUtility.ValidateIPv4(ListenAddressInput.Text, out IPAddress ip);
+                success = NetworkUtility.ValidateIPv4(ListenAddressInput.Text, out IPAddress ip);
 
                 if (success)
                 {
@@ -173,11 +173,13 @@ namespace InstrumentReverseProxyApp
 
         private void SaveDevice_Click(object sender, EventArgs e)
         {
-            // todo add single reference
-            var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Libs");
-            var deviceSaveUI = new AddDeviceUI(path, _netUtility.Ports);
+            var deviceSaveUI = new AddDeviceUI(DeviceManager.DevicesDirectory.FullName, _netUtility.Ports);
 
             deviceSaveUI.ShowDialog(this);
+
+            ClearCaptureButton_Click(sender, e);
+
+            LoadDevices();
         }
 
         void PortsFoundLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -213,7 +215,7 @@ namespace InstrumentReverseProxyApp
         {
             try
             {
-                Process.Start(DeviceManager.DevicesDirectory.FullName);
+                DeviceManager.OpenDeviceFolder();
             }
             catch (Exception ex)
             {

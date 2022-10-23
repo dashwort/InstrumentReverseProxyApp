@@ -237,7 +237,7 @@ namespace InstrumentReverseProxyApp
             return pingable;
         }
 
-        public bool ValidateIPv4(string ipString, out IPAddress ip)
+        public static bool ValidateIPv4(string ipString, out IPAddress ip)
         {
             ip = new IPAddress(0);
             if (ipString.Count(c => c == '.') != 3) return false;

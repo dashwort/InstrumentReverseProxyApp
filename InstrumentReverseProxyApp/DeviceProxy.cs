@@ -23,6 +23,9 @@ namespace InstrumentReverseProxyApp
 
             ProxyManager = new ProxyManager();
             ProxyManager.ProxyStarted += ProxyManager_ProxyStarted;
+
+            CurrentProxies.DefaultCellStyle.SelectionBackColor = Color.LightBlue;
+            CurrentProxies.DefaultCellStyle.SelectionForeColor = Color.Black;
         }
 
         ProxyManager ProxyManager;
@@ -42,6 +45,7 @@ namespace InstrumentReverseProxyApp
 
                     foreach (DataGridViewColumn col in CurrentProxies.Columns)
                         col.AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+
                 });
             }
             catch (Exception ex)
@@ -50,22 +54,16 @@ namespace InstrumentReverseProxyApp
             }
         }
 
-        private void HomePageTabs_DrawItem(object sender, DrawItemEventArgs e)
-        {
-            var colour = Color.FromArgb(31, 31, 31, 255);
-            TabPage page = HomePageTabs.TabPages[e.Index];
-            e.Graphics.FillRectangle(new SolidBrush(colour), e.Bounds);
-
-            Rectangle paddedBounds = e.Bounds;
-            int yOffset = (e.State == DrawItemState.Selected) ? -2 : 1;
-            paddedBounds.Offset(1, yOffset);
-            TextRenderer.DrawText(e.Graphics, page.Text, e.Font, paddedBounds, page.ForeColor);
-        }
-
         void AddProxyButton_Click(object sender, EventArgs e)
         {
             var addProxyUI = new AddProxy(NetworkUtility.GetIPAddresses());
             addProxyUI.ShowDialog(this);
+
+            if (addProxyUI.DialogResult == DialogResult.OK)
+            {
+                ProxyManager.AddProxySettings(addProxyUI.ProxyEntries);
+                ProxyManager_ProxyStarted(sender, e);
+            }            
         }
 
         void RemoveProxyButton_Click(object sender, EventArgs e)
@@ -96,18 +94,13 @@ namespace InstrumentReverseProxyApp
             
         }
 
-        private void DeviceProxy_Load(object sender, EventArgs e)
-        {
-
-        }
-
         private void CurrentProxies_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
         {
             var currentRow = CurrentProxies.Rows[e.RowIndex];
             var statusIndex = CurrentProxies.Columns["Status"].Index;
 
             var cellValue = (string)currentRow.Cells[statusIndex].Value;
-            
+
             if (cellValue == "Verified")
             {
                 currentRow.Cells[statusIndex].Style.BackColor = Color.Green;

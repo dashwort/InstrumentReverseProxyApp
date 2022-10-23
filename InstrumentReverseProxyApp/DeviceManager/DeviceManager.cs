@@ -34,10 +34,6 @@ namespace InstrumentReverseProxyApp
 
         public static void LoadDevices()
         {
-            var devicesDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Libs");
-
-            DevicesDirectory = new DirectoryInfo(devicesDirectory);
-
             if (!DevicesDirectory.Exists)
                 return;
 
@@ -50,6 +46,11 @@ namespace InstrumentReverseProxyApp
                 var d = new Device();
                 _devices.Add(d.Load(file.FullName));
             }
+        }
+
+        public static void OpenDeviceFolder()
+        {
+            System.Diagnostics.Process.Start(DevicesDirectory.FullName);
         }
     }
 }

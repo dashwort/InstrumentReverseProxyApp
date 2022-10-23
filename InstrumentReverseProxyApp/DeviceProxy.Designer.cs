@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DeviceProxy));
             this.HomePageTabs = new System.Windows.Forms.TabControl();
             this.AddProxy = new System.Windows.Forms.TabPage();
             this.TabLayout = new System.Windows.Forms.TableLayoutPanel();
@@ -58,7 +59,6 @@
             this.HomePageTabs.SelectedIndex = 0;
             this.HomePageTabs.Size = new System.Drawing.Size(1067, 569);
             this.HomePageTabs.TabIndex = 0;
-            this.HomePageTabs.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.HomePageTabs_DrawItem);
             // 
             // AddProxy
             // 
@@ -91,7 +91,7 @@
             // 
             this.ProxyAddTable.ColumnCount = 3;
             this.TabLayout.SetColumnSpan(this.ProxyAddTable, 2);
-            this.ProxyAddTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.ProxyAddTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33332F));
             this.ProxyAddTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33334F));
             this.ProxyAddTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33334F));
             this.ProxyAddTable.Controls.Add(this.CurrentProxies, 0, 0);
@@ -103,8 +103,8 @@
             this.ProxyAddTable.Name = "ProxyAddTable";
             this.ProxyAddTable.RowCount = 2;
             this.TabLayout.SetRowSpan(this.ProxyAddTable, 2);
-            this.ProxyAddTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 80F));
-            this.ProxyAddTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.ProxyAddTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.ProxyAddTable.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.ProxyAddTable.Size = new System.Drawing.Size(1047, 524);
             this.ProxyAddTable.TabIndex = 1;
             // 
@@ -115,6 +115,7 @@
             this.CurrentProxies.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.ProxyAddTable.SetColumnSpan(this.CurrentProxies, 3);
             this.CurrentProxies.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.CurrentProxies.ImeMode = System.Windows.Forms.ImeMode.Off;
             this.CurrentProxies.Location = new System.Drawing.Point(3, 3);
             this.CurrentProxies.MultiSelect = false;
             this.CurrentProxies.Name = "CurrentProxies";
@@ -131,6 +132,7 @@
             this.AddProxyButton.Dock = System.Windows.Forms.DockStyle.Fill;
             this.AddProxyButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.AddProxyButton.Location = new System.Drawing.Point(3, 422);
+            this.AddProxyButton.MaximumSize = new System.Drawing.Size(0, 100);
             this.AddProxyButton.Name = "AddProxyButton";
             this.AddProxyButton.Size = new System.Drawing.Size(342, 99);
             this.AddProxyButton.TabIndex = 1;
@@ -143,6 +145,7 @@
             this.RemoveProxyButton.Dock = System.Windows.Forms.DockStyle.Fill;
             this.RemoveProxyButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.RemoveProxyButton.Location = new System.Drawing.Point(351, 422);
+            this.RemoveProxyButton.MaximumSize = new System.Drawing.Size(0, 100);
             this.RemoveProxyButton.Name = "RemoveProxyButton";
             this.RemoveProxyButton.Size = new System.Drawing.Size(343, 99);
             this.RemoveProxyButton.TabIndex = 2;
@@ -155,6 +158,7 @@
             this.RefreshStatusButton.Dock = System.Windows.Forms.DockStyle.Fill;
             this.RefreshStatusButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.RefreshStatusButton.Location = new System.Drawing.Point(700, 422);
+            this.RefreshStatusButton.MaximumSize = new System.Drawing.Size(0, 100);
             this.RefreshStatusButton.Name = "RefreshStatusButton";
             this.RefreshStatusButton.Size = new System.Drawing.Size(344, 99);
             this.RefreshStatusButton.TabIndex = 3;
@@ -196,10 +200,10 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1067, 569);
             this.Controls.Add(this.HomePageTabs);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(1085, 616);
             this.Name = "DeviceProxy";
             this.Text = "Daves Reverse Proxy App";
-            this.Load += new System.EventHandler(this.DeviceProxy_Load);
             this.HomePageTabs.ResumeLayout(false);
             this.AddProxy.ResumeLayout(false);
             this.TabLayout.ResumeLayout(false);

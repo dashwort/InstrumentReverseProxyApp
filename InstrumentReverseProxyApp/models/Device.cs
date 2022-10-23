@@ -19,7 +19,7 @@ namespace InstrumentReverseProxyApp.models
         public IEnumerable<int> GetPorts()
         {
             var list = new List<int>();
-            var ports = Ports.Split(';');
+            var ports = Ports.Split(',');
 
             foreach (var p in ports)
             {
@@ -41,7 +41,7 @@ namespace InstrumentReverseProxyApp.models
 
             foreach (var p in ports)
             {
-                build.Append($"{p};");
+                build.Append($"{p},");
             }
 
             build.Remove(build.Length - 1, 1);
