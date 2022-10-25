@@ -42,13 +42,14 @@
             this.DeviceIPInput = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.ManualPortsLabel = new System.Windows.Forms.Label();
+            this.AutomaticallyAddFirewallRule = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(20, 195);
+            this.label2.Location = new System.Drawing.Point(20, 225);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(86, 20);
             this.label2.TabIndex = 1;
@@ -59,7 +60,7 @@
             // 
             this.LocalPort.Enabled = false;
             this.LocalPort.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LocalPort.Location = new System.Drawing.Point(141, 191);
+            this.LocalPort.Location = new System.Drawing.Point(141, 221);
             this.LocalPort.Name = "LocalPort";
             this.LocalPort.Size = new System.Drawing.Size(349, 27);
             this.LocalPort.TabIndex = 4;
@@ -78,7 +79,7 @@
             // 
             // SaveButton
             // 
-            this.SaveButton.Location = new System.Drawing.Point(24, 305);
+            this.SaveButton.Location = new System.Drawing.Point(24, 331);
             this.SaveButton.Name = "SaveButton";
             this.SaveButton.Size = new System.Drawing.Size(201, 49);
             this.SaveButton.TabIndex = 0;
@@ -88,7 +89,7 @@
             // 
             // CancelButton
             // 
-            this.CancelButton.Location = new System.Drawing.Point(289, 305);
+            this.CancelButton.Location = new System.Drawing.Point(289, 331);
             this.CancelButton.Name = "CancelButton";
             this.CancelButton.Size = new System.Drawing.Size(201, 49);
             this.CancelButton.TabIndex = 1;
@@ -130,7 +131,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(20, 232);
+            this.label4.Location = new System.Drawing.Point(20, 262);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(103, 20);
             this.label4.TabIndex = 3;
@@ -141,7 +142,7 @@
             // 
             this.RemotePort.Enabled = false;
             this.RemotePort.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.RemotePort.Location = new System.Drawing.Point(141, 229);
+            this.RemotePort.Location = new System.Drawing.Point(141, 259);
             this.RemotePort.Name = "RemotePort";
             this.RemotePort.Size = new System.Drawing.Size(349, 27);
             this.RemotePort.TabIndex = 7;
@@ -151,7 +152,7 @@
             // 
             this.SpecifyManualPorts.AutoSize = true;
             this.SpecifyManualPorts.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.SpecifyManualPorts.Location = new System.Drawing.Point(23, 158);
+            this.SpecifyManualPorts.Location = new System.Drawing.Point(24, 188);
             this.SpecifyManualPorts.Name = "SpecifyManualPorts";
             this.SpecifyManualPorts.Size = new System.Drawing.Size(187, 24);
             this.SpecifyManualPorts.TabIndex = 10;
@@ -182,18 +183,32 @@
             // 
             this.ManualPortsLabel.AutoSize = true;
             this.ManualPortsLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ManualPortsLabel.Location = new System.Drawing.Point(140, 270);
+            this.ManualPortsLabel.Location = new System.Drawing.Point(140, 300);
             this.ManualPortsLabel.Name = "ManualPortsLabel";
             this.ManualPortsLabel.Size = new System.Drawing.Size(179, 16);
             this.ManualPortsLabel.TabIndex = 13;
             this.ManualPortsLabel.Text = "Separate ports using comma";
             this.ManualPortsLabel.Visible = false;
             // 
+            // AutomaticallyAddFirewallRule
+            // 
+            this.AutomaticallyAddFirewallRule.AutoSize = true;
+            this.AutomaticallyAddFirewallRule.Checked = true;
+            this.AutomaticallyAddFirewallRule.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.AutomaticallyAddFirewallRule.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.AutomaticallyAddFirewallRule.Location = new System.Drawing.Point(24, 158);
+            this.AutomaticallyAddFirewallRule.Name = "AutomaticallyAddFirewallRule";
+            this.AutomaticallyAddFirewallRule.Size = new System.Drawing.Size(225, 24);
+            this.AutomaticallyAddFirewallRule.TabIndex = 14;
+            this.AutomaticallyAddFirewallRule.Text = "Add Exception To Firewall";
+            this.AutomaticallyAddFirewallRule.UseVisualStyleBackColor = true;
+            // 
             // AddProxy
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(516, 367);
+            this.ClientSize = new System.Drawing.Size(516, 395);
+            this.Controls.Add(this.AutomaticallyAddFirewallRule);
             this.Controls.Add(this.ManualPortsLabel);
             this.Controls.Add(this.DeviceIPInput);
             this.Controls.Add(this.label3);
@@ -210,6 +225,7 @@
             this.Controls.Add(this.label2);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(534, 442);
             this.Name = "AddProxy";
             this.Padding = new System.Windows.Forms.Padding(3);
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
@@ -234,5 +250,6 @@
         private System.Windows.Forms.TextBox DeviceIPInput;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label ManualPortsLabel;
+        private System.Windows.Forms.CheckBox AutomaticallyAddFirewallRule;
     }
 }

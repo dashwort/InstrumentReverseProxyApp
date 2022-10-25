@@ -71,13 +71,17 @@
             // 
             // DevicesDataView
             // 
+            this.DevicesDataView.AllowUserToAddRows = false;
+            this.DevicesDataView.AllowUserToDeleteRows = false;
             this.DevicesDataView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.DevicesDataView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.DevicesDataView.Location = new System.Drawing.Point(23, 23);
             this.DevicesDataView.Name = "DevicesDataView";
+            this.DevicesDataView.ReadOnly = true;
             this.DevicesDataView.RowHeadersWidth = 51;
             this.Layout.SetRowSpan(this.DevicesDataView, 2);
             this.DevicesDataView.RowTemplate.Height = 24;
+            this.DevicesDataView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.DevicesDataView.Size = new System.Drawing.Size(433, 384);
             this.DevicesDataView.TabIndex = 0;
             // 
@@ -147,12 +151,14 @@
             // ListenAddress
             // 
             this.ListenAddress.AutoSize = true;
+            this.ListenAddress.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ListenAddress.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ListenAddress.Location = new System.Drawing.Point(3, 0);
             this.ListenAddress.Name = "ListenAddress";
-            this.ListenAddress.Size = new System.Drawing.Size(36, 25);
+            this.ListenAddress.Size = new System.Drawing.Size(36, 80);
             this.ListenAddress.TabIndex = 10;
             this.ListenAddress.Text = "IP:";
+            this.ListenAddress.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // ListenAddressInput
             // 

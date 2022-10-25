@@ -42,8 +42,11 @@ namespace InstrumentReverseProxyApp
         {
             ClearCaptureButton.Enabled = false;
             SaveDevice.Enabled = false;
-            StartCapture.Enabled = true;
+            StartCapture.Enabled = false;
             PortsFoundLabel.Text = String.Empty;
+
+            DevicesDataView.DefaultCellStyle.SelectionBackColor = Color.LightBlue;
+            DevicesDataView.DefaultCellStyle.SelectionForeColor = Color.Black;
         }
 
         NetworkUtility _netUtility = new NetworkUtility();
@@ -140,8 +143,9 @@ namespace InstrumentReverseProxyApp
 
 
                 success = NetworkUtility.ValidateIPv4(ListenAddressInput.Text, out IPAddress ip);
+                
 
-                if (success)
+                if (success && !string.IsNullOrEmpty(ListenAddressInput.Text))
                 {
                     _netUtility.Address = ip;
                     ListenAddressInput.BackColor = Color.White;
@@ -171,15 +175,22 @@ namespace InstrumentReverseProxyApp
             _netUtility.Stop();
         }
 
-        private void SaveDevice_Click(object sender, EventArgs e)
+        void SaveDevice_Click(object sender, EventArgs e)
         {
-            var deviceSaveUI = new AddDeviceUI(DeviceManager.DevicesDirectory.FullName, _netUtility.Ports);
+            try
+            {
+                var deviceSaveUI = new AddDeviceUI(DeviceManager.DevicesDirectory.FullName, _netUtility.Ports);
 
-            deviceSaveUI.ShowDialog(this);
+                deviceSaveUI.ShowDialog(this);
 
-            ClearCaptureButton_Click(sender, e);
+                ClearCaptureButton_Click(sender, e);
 
-            LoadDevices();
+                LoadDevices();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         void PortsFoundLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

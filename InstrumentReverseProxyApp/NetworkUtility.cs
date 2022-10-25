@@ -1,4 +1,5 @@
-﻿using System;
+﻿using InstrumentReverseProxyApp.models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Management.Automation;
@@ -8,6 +9,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
+using System.Windows.Forms;
 
 namespace InstrumentReverseProxyApp
 {
@@ -76,7 +78,7 @@ namespace InstrumentReverseProxyApp
             }
         }
 
-        public Timer PingTimer
+        public System.Timers.Timer PingTimer
         {
             get { return _pingTimer; }
         }
@@ -242,6 +244,41 @@ namespace InstrumentReverseProxyApp
             ip = new IPAddress(0);
             if (ipString.Count(c => c == '.') != 3) return false;
             return IPAddress.TryParse(ipString, out ip);
+        }
+
+        public static bool CheckPortsAreListening(string ip, string port)
+        {
+            bool success = false;
+            int portNumber = int.Parse(port);
+
+            TcpClient tc = new TcpClient();
+            try
+            {
+                tc.Connect(ip, portNumber);
+                success = tc.Connected;
+                tc.Close();
+            }
+            catch (Exception)
+            {
+                tc.Close();
+            }
+
+            return success;
+        }
+        
+        public static List<string> CheckForBlockedPorts(IEnumerable<ProxyEntry> entries)
+        {
+            var ports = new List<string>();
+
+            foreach (var entry in entries)
+            {
+                if (!CheckPortsAreListening(entry.LocalAddress, entry.LocalPort))
+                {
+                    ports.Add(entry.LocalPort);
+                }
+            }
+            
+            return ports;
         }
 
         #endregion

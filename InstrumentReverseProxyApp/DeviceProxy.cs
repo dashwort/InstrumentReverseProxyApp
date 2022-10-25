@@ -26,8 +26,15 @@ namespace InstrumentReverseProxyApp
 
             CurrentProxies.DefaultCellStyle.SelectionBackColor = Color.LightBlue;
             CurrentProxies.DefaultCellStyle.SelectionForeColor = Color.Black;
+
+            SetVersion();
         }
 
+        void SetVersion()
+        {
+            this.Text = "RPA v:" + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+        }
+        
         ProxyManager ProxyManager;
         
 
@@ -56,14 +63,48 @@ namespace InstrumentReverseProxyApp
 
         void AddProxyButton_Click(object sender, EventArgs e)
         {
-            var addProxyUI = new AddProxy(NetworkUtility.GetIPAddresses());
-            addProxyUI.ShowDialog(this);
-
-            if (addProxyUI.DialogResult == DialogResult.OK)
+            try
             {
-                ProxyManager.AddProxySettings(addProxyUI.ProxyEntries);
+                var addProxyUI = new AddProxy(NetworkUtility.GetIPAddresses());
+                addProxyUI.ShowDialog(this);
+
+                if (addProxyUI.DialogResult == DialogResult.OK)
+                {
+                    ProxyManager.AddProxySettings(addProxyUI.ProxyEntries);
+
+                    if (addProxyUI.AddFirewallRule)
+                    {
+                        var firewallManager = new FirewallManager();
+
+                        foreach (var proxy in addProxyUI.ProxyEntries)
+                        {
+                            firewallManager.AddRuleFromProxy(proxy);
+                        }
+                    }
+                }
+
+                var blockedPorts = NetworkUtility.CheckForBlockedPorts(addProxyUI.ProxyEntries);
+                
+                if (blockedPorts.Count > 0)
+                {
+                    var blockedPortsMessage = new StringBuilder();
+                    blockedPortsMessage.AppendLine("The following ports are blocked by your firewall:");
+                    blockedPortsMessage.AppendLine();
+                    foreach (var port in blockedPorts)
+                    {
+                        blockedPortsMessage.AppendLine(port.ToString());
+                    }
+                    blockedPortsMessage.AppendLine();
+                    blockedPortsMessage.AppendLine("Please unblock these ports to use the proxy.");
+                    MessageBox.Show(this, blockedPortsMessage.ToString(), "Blocked Ports", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+
                 ProxyManager_ProxyStarted(sender, e);
-            }            
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error during add proxy: {ex.Message}");
+            }    
         }
 
         void RemoveProxyButton_Click(object sender, EventArgs e)

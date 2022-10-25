@@ -44,6 +44,7 @@ namespace InstrumentReverseProxyApp
         }
 
         public List<ProxyEntry> ProxyEntries { get; set; }
+        public bool AddFirewallRule { get; set; } = true;
 
         void OnLoad()
         {
@@ -86,7 +87,8 @@ namespace InstrumentReverseProxyApp
                     MessageBox.Show($"no entries were saved");
                     return;
                 }
-                    
+
+                this.AddFirewallRule = AutomaticallyAddFirewallRule.Checked;
                 this.DialogResult = DialogResult.OK;
                 this.Close();
             }
