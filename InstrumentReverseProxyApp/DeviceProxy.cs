@@ -137,18 +137,33 @@ namespace InstrumentReverseProxyApp
 
         private void CurrentProxies_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
         {
-            var currentRow = CurrentProxies.Rows[e.RowIndex];
-            var statusIndex = CurrentProxies.Columns["Status"].Index;
-
-            var cellValue = (string)currentRow.Cells[statusIndex].Value;
-
-            if (cellValue == "Verified")
+            try
             {
-                currentRow.Cells[statusIndex].Style.BackColor = Color.Green;
+                var currentRow = CurrentProxies.Rows[e.RowIndex];
+                var properties = new string[] { "ConnectedStatus", "LocalPortAvailiabilty", "RemotePortAvailiabilty" };
+
+
+                foreach (var prop in properties)
+                {
+                    var statusIndex = CurrentProxies.Columns[prop].Index;
+
+
+
+                    var cellValue = (string)currentRow.Cells[statusIndex].Value;
+
+                    if (!cellValue.ToLower().Contains("not"))
+                    {
+                        currentRow.Cells[statusIndex].Style.BackColor = Color.Green;
+                        continue;
+                    }
+
+
+                    currentRow.Cells[statusIndex].Style.BackColor = Color.Orange;
+                }
             }
-            else
+            catch (Exception ex)
             {
-                currentRow.Cells[statusIndex].Style.BackColor = Color.Orange;
+                Console.WriteLine($"Error during row added: {ex.Message}");
             }
 
 

@@ -122,7 +122,6 @@
             this.CurrentProxies.ReadOnly = true;
             this.CurrentProxies.RowHeadersWidth = 51;
             this.CurrentProxies.RowTemplate.Height = 24;
-            this.CurrentProxies.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.CurrentProxies.Size = new System.Drawing.Size(1041, 413);
             this.CurrentProxies.TabIndex = 0;
             this.CurrentProxies.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.CurrentProxies_RowsAdded);

@@ -30,21 +30,49 @@ namespace InstrumentReverseProxyApp.models
         public string RemoteAddress { get; set; }
         public string LocalPort { get; set; }
         public string RemotePort { get; set; }
-        public string Status 
+        public string ConnectedStatus 
         {
             get
             {
-                return GetStatus();
-            } set
-            {
-                Status = value;
+                return GetConnectedStatus();
             }
         }
 
-        public string GetStatus()
+        public string RemotePortAvailiabilty
+        {
+            get
+            {
+                return GetPortStatus(RemoteAddress, RemotePort);
+            }
+        }
+
+        public string LocalPortAvailiabilty
+        {
+            get
+            {
+                return GetPortStatus(LocalAddress, LocalPort);
+            }
+        }
+
+        private string GetPortStatus(string remoteAddress, string remotePort)
+        {
+            try
+            {
+                using (var client = new TcpClient(remoteAddress, int.Parse(remotePort)))
+                {
+                    return "Available";
+                }
+            }
+            catch (Exception)
+            {
+                return "Unavailable";
+            }
+        }
+
+        public string GetConnectedStatus()
         {
             if (string.IsNullOrEmpty(LocalAddress) || string.IsNullOrEmpty(LocalPort))
-                return "Not Verified";
+                return "Not Connected";
             
             try
             {
@@ -52,17 +80,17 @@ namespace InstrumentReverseProxyApp.models
                 var portSuccess = int.TryParse(LocalPort, out int port);
 
                 if (!ipSuccess || !portSuccess)
-                    return "Not Verified";
+                    return "Not Connected";
                 
-                return CheckAvailableServerPort(port) ? "Verified" : "Not Verified";
+                return GetConnectedStatus(port) ? "Connected" : "Not Connected";
             }
             catch (Exception)
             {
-                return "Not Verified";
+                return "Not Connected";
             }
         }
 
-        private bool CheckAvailableServerPort(int port)
+        private bool GetConnectedStatus(int port)
         {
             bool isAvailable = false;
 
